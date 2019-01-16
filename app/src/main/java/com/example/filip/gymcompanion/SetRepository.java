@@ -24,8 +24,8 @@ public class SetRepository {
 
     public ArrayList<Set> getSets(int workoutId) {
         SQLiteDatabase db = database.getReadableDatabase();
-        String query = String.format("SELECT * FROM %s INNER JOIN %s ON %s = %s ",
-                Database.TABLE_1, Workout.TABLE_NAME, "exercises_and_workouts.idworkout", Workout.TABLE_1_ID);
+        String query = String.format("SELECT * FROM %s WHERE %s = %s",
+                Set.TABLE_NAME, "idworkout", workoutId);
         Cursor result = db.rawQuery(query, null);
         result.moveToFirst();
         ArrayList<Set> list = new ArrayList<Set>(result.getCount());

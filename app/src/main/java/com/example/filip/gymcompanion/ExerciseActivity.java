@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class ExerciseActivity extends AppCompatActivity {
     LinearLayout layout1;
     int exId;
     Button add;
+
 
 
     @Override
@@ -43,13 +45,10 @@ public class ExerciseActivity extends AppCompatActivity {
 
         Database db = new Database(this);
         final WorkoutRepository wr = new WorkoutRepository(db);
-        Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-        final String strDate = dateFormat.format(date);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                wr.addWorkout(strDate);
+
                 wr.addWorkoutInExercise(exId);
                 finish();
                 startActivity(getIntent());
@@ -59,7 +58,8 @@ public class ExerciseActivity extends AppCompatActivity {
 
         for (Workout w : wr.getSpecificWorkouts(exId)) {
             ConstraintLayout item = (ConstraintLayout) inflater.inflate(R.layout.workout, null);
-            ((TextView) item.findViewById(R.id.idDate)).setText(w.getDate());
+            ((TextView) item.findViewById(R.id.idDate)).setText(DbUtils.formatDate(w.getDate()));
+
             int indeks = wr.getSpecificWorkouts(exId).indexOf(w);
             ((TextView) item.findViewById(R.id.wn)).setText(Integer.toString(indeks));
             layout1.addView(item);
@@ -75,6 +75,16 @@ public class ExerciseActivity extends AppCompatActivity {
                     ExerciseActivity.this.startActivity(myIntent);
                 }
             });
+            ((ImageView) item.findViewById(R.id.deleteWorkout)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    wr.deleteWorkout(wId);
+                    finish();
+                    startActivity(getIntent());
+                }
+            });
         }
+
+
     }
 }

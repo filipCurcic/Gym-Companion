@@ -17,73 +17,34 @@ public class WorkoutRepository {
         this.database = db;
     }
 
-    public void addWorkout(String date) {
-        SQLiteDatabase db = database.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(Workout.FIELD_WORKOUT_DATE, date);
-        db.insert(Workout.TABLE_NAME, null, cv);
-    }
 
     public void addWorkoutInExercise(int exId) {
         SQLiteDatabase db = database.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put("idworkout", getLastAddedRowId());
+        cv.put(Workout.FIELD_WORKOUT_DATE, DbUtils.getCurrentDate());
         cv.put("idexercise", exId);
-        db.insert(Database.TABLE_1, null, cv);
-
+        db.insert(Workout.TABLE_NAME, null, cv);
     }
 
-    public int getLastAddedRowId() {
+
+    public void deleteWorkout(int wId) {
         SQLiteDatabase db = database.getWritableDatabase();
-        String queryLastRowInserted = "select last_insert_rowid()";
-        final Cursor cursor = db.rawQuery(queryLastRowInserted, null);
-        int lastInsertedId = 0;
-        if (cursor != null) {
-            try {
-                if (cursor.moveToFirst()) {
-                    lastInsertedId = cursor.getInt(0);
-                }
-            } finally {
-                cursor.close();
-            }
-        }
-
-        return lastInsertedId;
-
+        String query = String.format("DELETE FROM %s WHERE %s = %s", Workout.TABLE_NAME, Workout.FIELD_WORKOUT_ID, wId);
+        db.execSQL(query);
     }
-
-    public ArrayList<Workout> getAllWorkouts() {
-        SQLiteDatabase db = database.getReadableDatabase();
-        String query = String.format("SELECT * FROM %s", Workout.TABLE_NAME);
-        Cursor result = db.rawQuery(query, null);
-        result.moveToFirst();
-        ArrayList<Workout> list = new ArrayList<Workout>(result.getCount());
-        while (!result.isAfterLast()) {
-            int workoutId = result.getInt(result.getColumnIndex(Workout.FIELD_WORKOUT_ID));
-            String workoutDate = result.getString(result.getColumnIndex(Workout.FIELD_WORKOUT_DATE));
-            list.add(new Workout(workoutId, workoutDate));
-            result.moveToNext();
-
-        }
-        result.close();
-        return list;
-    }
-
-
 
     public ArrayList<Workout> getSpecificWorkouts(int exId) {
         SQLiteDatabase db = database.getReadableDatabase();
-        String query = String.format("SELECT * FROM %s INNER JOIN %s ON %s = %s INNER JOIN %s ON %s = %s",
-                Database.TABLE_1, Workout.TABLE_NAME, "exercises_and_workouts.idworkout", Workout.TABLE_1_ID, Exercise.TABLE_NAME, "exercises_and_workouts.idexercise", exId);
+        String query = String.format("SELECT * FROM %s WHERE %s = %s",
+                Workout.TABLE_NAME, Workout.TABLE_EXERCISE_ID, exId);
         Cursor result = db.rawQuery(query, null);
         result.moveToFirst();
         ArrayList<Workout> list = new ArrayList<Workout>(result.getCount());
         while(!result.isAfterLast()){
             int workoutId = result.getInt(result.getColumnIndex(Workout.FIELD_WORKOUT_ID));
-            String workoutDate = result.getString(result.getColumnIndex(Workout.FIELD_WORKOUT_DATE));
-            list.add(new Workout(workoutId, workoutDate));
+            long workoutDate = result.getLong(result.getColumnIndex(Workout.FIELD_WORKOUT_DATE));
+            list.add(new Workout(workoutId, DbUtils.convertDate(workoutDate)));
             result.moveToNext();
-
         }
         result.close();
         return list;

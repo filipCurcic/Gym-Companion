@@ -6,12 +6,12 @@ public class Workout {
     public static final String TABLE_NAME="workout";
     public static final String FIELD_WORKOUT_ID="id";
     public static final String FIELD_WORKOUT_DATE="date";
-    public static final String TABLE_1_ID="workout.id";
+    public static final String TABLE_EXERCISE_ID="idexercise";
 
     private int id;
-    private String date;
+    private Date date;
 
-    public Workout(int id, String date) {
+    public Workout(int id, Date date) {
         this.id = id;
         this.date = date;
 
@@ -21,11 +21,11 @@ public class Workout {
         return id;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
