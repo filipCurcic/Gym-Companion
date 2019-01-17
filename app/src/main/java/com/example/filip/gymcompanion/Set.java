@@ -5,12 +5,13 @@ public class Set {
     public static final String FIELD_SET_ID="id";
     public static final String FIELD_SET_WEIGHT="weight";
     public static final String FIELD_SET_REPS="reps";
+    public static final String FIELD_WORKOUTID="idworkout";
 
     private int id;
-    private int weight;
+    private double weight;
     private int reps;
 
-    public Set(int id, int weight, int reps) {
+    public Set(int id, double weight, int reps) {
         this.id = id;
         this.weight = weight;
         this.reps = reps;
@@ -24,11 +25,11 @@ public class Set {
         this.id = id;
     }
 
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 

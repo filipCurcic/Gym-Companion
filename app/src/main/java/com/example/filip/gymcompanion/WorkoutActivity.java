@@ -26,6 +26,14 @@ public class WorkoutActivity extends AppCompatActivity {
         init();
     }
 
+    /*@Override
+    public void onResume(){
+        super.onResume();
+        finish();
+        startActivity(getIntent());
+
+    }*/
+
     private void init() {
         Intent i = getIntent();
         Bundle extras = i.getExtras();
@@ -36,8 +44,9 @@ public class WorkoutActivity extends AppCompatActivity {
         Database db = new Database(this);
         SetRepository sets = new SetRepository(db);
         for(Set s : sets.getSets(workoutId)) {
+
             ConstraintLayout item = (ConstraintLayout) inflater.inflate(R.layout.workout_set, null);
-            String workoutText = String.format("%s      x      %s kg", s.getWeight(), s.getReps());
+            String workoutText = String.format("%s      x      %s kg", s.getReps(),s.getWeight());
             ((TextView) item.findViewById(R.id.idWeight)).setText(workoutText);
             layout1.addView(item);
         }
@@ -45,8 +54,11 @@ public class WorkoutActivity extends AppCompatActivity {
         newSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(WorkoutActivity.this, PopUp.class);
+                i.putExtra("workoutid", workoutId);
+                startActivity(i);
             }
         });
     }
+
 }

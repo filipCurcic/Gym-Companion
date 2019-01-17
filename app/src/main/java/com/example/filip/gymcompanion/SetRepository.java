@@ -14,11 +14,12 @@ public class SetRepository {
         this.database = db;
     }
 
-    public void addSet(int weight, int reps) {
+    public void addSet(double weight, int reps, int workoutId) {
         SQLiteDatabase db = database.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(Set.FIELD_SET_WEIGHT, weight);
         cv.put(Set.FIELD_SET_REPS, reps);
+        cv.put(Set.FIELD_WORKOUTID, workoutId);
         db.insert(Set.TABLE_NAME, null, cv);
     }
 
@@ -31,7 +32,7 @@ public class SetRepository {
         ArrayList<Set> list = new ArrayList<Set>(result.getCount());
         while(!result.isAfterLast()){
             int setId = result.getInt(result.getColumnIndex(Set.FIELD_SET_ID));
-            int setWeight = result.getInt(result.getColumnIndex(Set.FIELD_SET_WEIGHT));
+            double setWeight = result.getDouble(result.getColumnIndex(Set.FIELD_SET_WEIGHT));
             int setReps = result.getInt(result.getColumnIndex(Set.FIELD_SET_REPS));
             list.add(new Set(setId, setWeight, setReps));
             result.moveToNext();
