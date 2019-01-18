@@ -30,7 +30,7 @@ public class ExerciseRepository {
         while(!result.isAfterLast()){
             int exerciseId = result.getInt(result.getColumnIndex(Exercise.FIELD_EXERCISE_ID));
             String exerciseName = result.getString(result.getColumnIndex(Exercise.FIELD_EXERCISE_NAME));
-            list.add(new Exercise(exerciseId, exerciseName));
+            list.add(new Exercise(exerciseId, exerciseName, 0, null));
             result.moveToNext();
 
         }

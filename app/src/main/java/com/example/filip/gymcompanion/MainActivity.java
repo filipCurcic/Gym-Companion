@@ -2,6 +2,7 @@ package com.example.filip.gymcompanion;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView exercises;
     LayoutInflater inflater;
     LinearLayout layout1;
+    ImageView newExercise;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +32,16 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layout1 = (LinearLayout) findViewById(R.id.mainScroll);
+        newExercise = (ImageView) findViewById(R.id.addNewExercise);
         Database db = new Database(this);
         ExerciseRepository er = new ExerciseRepository(db);
 
+        newExercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, PopUp2.class));
+            }
+        });
 
 
 
@@ -45,11 +54,17 @@ public class MainActivity extends AppCompatActivity {
                 case "Squat":
                     ((ImageView) item.findViewById(R.id.imageView2)).setImageResource(R.drawable.sqt);
                     break;
-                case "Bench Press":
+                case "Bench":
                     ((ImageView) item.findViewById(R.id.imageView2)).setImageResource(R.drawable.bp);
                     break;
                 case "Deadlift":
                     ((ImageView) item.findViewById(R.id.imageView2)).setImageResource(R.drawable.dlft);
+                    break;
+                case "Row":
+                    ((ImageView) item.findViewById(R.id.imageView2)).setImageResource(R.drawable.row);
+                    break;
+                case "OHP":
+                    ((ImageView) item.findViewById(R.id.imageView2)).setImageResource(R.drawable.ohp);
                     break;
             }
             layout1.addView(item);
@@ -65,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
+
+
 
         }
 

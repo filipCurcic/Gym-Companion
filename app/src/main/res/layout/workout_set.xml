@@ -24,7 +24,7 @@
             android:textSize="22sp" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/editSet"
             android:layout_width="1dp"
             android:layout_height="29dp"
             android:layout_marginTop="5dp"
@@ -32,7 +32,7 @@
             app:srcCompat="@drawable/edit" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/deleteSet"
             android:layout_width="1dp"
             android:layout_height="29dp"
             android:layout_marginTop="5dp"

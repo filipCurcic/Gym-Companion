@@ -42,4 +42,10 @@ public class SetRepository {
         return list;
     }
 
+    public void deleteSet(int setId) {
+        SQLiteDatabase db = database.getWritableDatabase();
+        String query = String.format("DELETE FROM %s WHERE %s = %s", Set.TABLE_NAME, Set.FIELD_SET_ID, setId);
+        db.execSQL(query);
+    }
+
 }

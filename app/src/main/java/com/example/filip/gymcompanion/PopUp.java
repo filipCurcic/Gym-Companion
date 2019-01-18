@@ -8,12 +8,13 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 
 public class PopUp extends AppCompatActivity {
 
     NumberPicker picker1, picker2;
-    Button addSet, cancelAdding;
+    Button addSet;
     int workoutId;
 
     @Override
@@ -38,7 +39,6 @@ public class PopUp extends AppCompatActivity {
         picker1 = (NumberPicker) findViewById(R.id.picker1);
         picker1.setMinValue(1);
         picker1.setMaxValue(100);
-
         picker2 = (NumberPicker) findViewById(R.id.picker2);
 
 
@@ -63,10 +63,9 @@ public class PopUp extends AppCompatActivity {
             public void onClick(View v) {
                 sr.addSet((picker1.getValue()*2.5), picker2.getValue(), workoutId);
                 finish();
-
-
             }
         });
+
 
 
 
