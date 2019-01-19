@@ -26,6 +26,7 @@ public class PopUp2 extends AppCompatActivity {
     Spinner exerciseCategory;
     ImageView exerciseIcon;
     Button addExercise;
+    int imageValue;
 
     String exerciseNameValue, exerciseCategoryValue, exerciseIconResourceName;
 
@@ -52,6 +53,9 @@ public class PopUp2 extends AppCompatActivity {
         exerciseIcon = (ImageView) findViewById(R.id.exerciseIcon);
         addExercise = (Button) findViewById(R.id.addNewExc);
 
+        Database db = new Database(this);
+        final ExerciseRepository er = new ExerciseRepository(db);
+
 
 
         List<String> spinnerArray =  new ArrayList<String>();
@@ -67,19 +71,42 @@ public class PopUp2 extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         exerciseCategory.setAdapter(adapter);
 
-        exerciseCategoryValue = exerciseCategory.getSelectedItem().toString();
+
 
         exerciseIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle extras = new Bundle();
+                exerciseCategoryValue = exerciseCategory.getSelectedItem().toString();
                 extras.putString("Category", exerciseCategoryValue);
                 Intent i = new Intent(PopUp2.this, ImagePicker.class);
                 i.putExtras(extras);
-                startActivity(i);
+                startActivityForResult(i, 1);
 
             }
         });
 
+        addExercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                er.addExercise(exerciseName.getText().toString(), imageValue);
+                finish();
+            }
+        });
+
     }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                imageValue = data.getIntExtra("ImageIntValue", 0);
+                exerciseIcon.setImageResource(imageValue);
+
+            }
+        }
+    }
+
+
+
 }

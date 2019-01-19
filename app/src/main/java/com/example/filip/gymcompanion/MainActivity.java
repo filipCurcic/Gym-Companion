@@ -50,9 +50,10 @@ public class MainActivity extends AppCompatActivity {
             ConstraintLayout item = (ConstraintLayout) inflater.inflate(R.layout.exercise, null);
             ((TextView) item.findViewById(R.id.e1)).setText(String.valueOf(e.getId()));
             ((TextView) item.findViewById(R.id.exName)).setText(e.getName());
-            switch(e.getName()) {
+            ((ImageView) item.findViewById(R.id.imageView2)).setImageResource(e.getImageResource());
+           /* switch(e.getName()) {
                 case "Squat":
-                    ((ImageView) item.findViewById(R.id.imageView2)).setImageResource(R.drawable.sqt);
+
                     break;
                 case "Bench":
                     ((ImageView) item.findViewById(R.id.imageView2)).setImageResource(R.drawable.bp);
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 case "OHP":
                     ((ImageView) item.findViewById(R.id.imageView2)).setImageResource(R.drawable.ohp);
                     break;
-            }
+            }*/
             layout1.addView(item);
             final int exId = e.getId();
             item.setOnClickListener(new View.OnClickListener() {

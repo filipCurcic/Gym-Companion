@@ -14,10 +14,13 @@ public class ExerciseRepository {
     public ExerciseRepository(Database db) {
         this.database = db;
     }
-    public void addExercise(String name){
+
+
+    public void addExercise(String name, int imageValue){
         SQLiteDatabase db = database.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(Exercise.FIELD_EXERCISE_NAME, name);
+        cv.put(Exercise.FIELD_IMAGE_RESOURCE, imageValue);
         db.insert(Exercise.TABLE_NAME, null, cv);
     }
 
@@ -30,7 +33,7 @@ public class ExerciseRepository {
         while(!result.isAfterLast()){
             int exerciseId = result.getInt(result.getColumnIndex(Exercise.FIELD_EXERCISE_ID));
             String exerciseName = result.getString(result.getColumnIndex(Exercise.FIELD_EXERCISE_NAME));
-            list.add(new Exercise(exerciseId, exerciseName, 0, null));
+            list.add(new Exercise(exerciseId, exerciseName, 0));
             result.moveToNext();
 
         }
