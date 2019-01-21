@@ -33,7 +33,8 @@ public class ExerciseRepository {
         while(!result.isAfterLast()){
             int exerciseId = result.getInt(result.getColumnIndex(Exercise.FIELD_EXERCISE_ID));
             String exerciseName = result.getString(result.getColumnIndex(Exercise.FIELD_EXERCISE_NAME));
-            list.add(new Exercise(exerciseId, exerciseName, 0));
+            int imageResource = result.getInt(result.getColumnIndex(Exercise.FIELD_IMAGE_RESOURCE));
+            list.add(new Exercise(exerciseId, exerciseName, imageResource));
             result.moveToNext();
 
         }
@@ -41,13 +42,25 @@ public class ExerciseRepository {
         return list;
     }
 
-    public void addToTables() {
+    public void deleteExercise(int exId) {
         SQLiteDatabase db = database.getWritableDatabase();
-        ContentValues cv = new ContentValues();
+        String query = String.format("DELETE FROM %s WHERE %s = %s", Exercise.TABLE_NAME, Exercise.FIELD_EXERCISE_ID, exId);
+        String query1 = String.format("DELETE FROM %s WHERE %s = %s", Workout.TABLE_NAME, Workout.TABLE_EXERCISE_ID, exId);
+        //String query2 = String.format("DELETE FROM %s WHERE (SELECT ) = %s");
+        db.execSQL(query);
+        db.execSQL(query1);
 
-
-        db.insert(Database.TABLE_1, null, cv);
     }
+
+    public int getLastExercise(int exId) {
+        SQLiteDatabase db = database.getReadableDatabase();
+        String query = String.format("SELECT * FROM %s WHERE %s = %s ORDER BY %s DESC LIMIT 1", Workout.TABLE_NAME, Workout.TABLE_EXERCISE_ID, exId, Workout.FIELD_WORKOUT_DATE);
+        Cursor result = db.rawQuery(query, null);
+        result.moveToFirst();
+        int workoutDate = result.getInt(result.getColumnIndex(Workout.FIELD_WORKOUT_DATE));
+        return workoutDate;
+    }
+
 
     public void dropTables() {
         SQLiteDatabase db = database.getWritableDatabase();

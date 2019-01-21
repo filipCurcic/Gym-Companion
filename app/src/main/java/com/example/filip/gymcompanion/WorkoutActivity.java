@@ -19,7 +19,7 @@ public class WorkoutActivity extends AppCompatActivity {
     int workoutId;
     LayoutInflater inflater;
     LinearLayout layout1;
-    Button newSet;
+    ImageView newSet;
     ImageView deleteSet, editSet;
 
     @Override
@@ -29,13 +29,6 @@ public class WorkoutActivity extends AppCompatActivity {
         init();
     }
 
-    /*@Override
-    public void onResume(){
-        super.onResume();
-        finish();
-        startActivity(getIntent());
-
-    }*/
 
     private void init() {
         Intent i = getIntent();
@@ -43,7 +36,7 @@ public class WorkoutActivity extends AppCompatActivity {
         workoutId = extras.getInt("id");
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layout1 = (LinearLayout) findViewById(R.id.workoutsScrollElement);
-        newSet = (Button) findViewById(R.id.newSet);
+        newSet = (ImageView) findViewById(R.id.newSet);
         Database db = new Database(this);
         final SetRepository sets = new SetRepository(db);
         for(final Set s : sets.getSets(workoutId)) {
@@ -57,12 +50,11 @@ public class WorkoutActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     sets.deleteSet(s.getId());
-                    finish();
-                    startActivity(getIntent());
+                    clearViews();
+                    init();
                 }
             });
         }
-
         newSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +63,19 @@ public class WorkoutActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        clearViews();
+        init();
+    }
+
+    private void clearViews() {
+        layout1.removeAllViews();
     }
 
 }

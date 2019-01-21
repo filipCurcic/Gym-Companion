@@ -89,10 +89,17 @@ public class PopUp2 extends AppCompatActivity {
         addExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                er.addExercise(exerciseName.getText().toString(), imageValue);
-                finish();
+                if(exerciseName.getText().toString().trim().equals("")) {
+                    exerciseName.setError("This field is required");
+                } else {
+                    er.addExercise(exerciseName.getText().toString(), imageValue);
+                    finish();
+                    startActivity(new Intent(PopUp2.this, MainActivity.class));
+                }
             }
         });
+
+
 
     }
 
@@ -102,10 +109,11 @@ public class PopUp2 extends AppCompatActivity {
             if(resultCode == RESULT_OK) {
                 imageValue = data.getIntExtra("ImageIntValue", 0);
                 exerciseIcon.setImageResource(imageValue);
-
             }
         }
     }
+
+
 
 
 

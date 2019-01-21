@@ -12,15 +12,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
+import org.w3c.dom.Text;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView exercises;
     LayoutInflater inflater;
     LinearLayout layout1;
-    ImageView newExercise;
+    ImageView newExercise, deleteExercise;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +28,24 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        clearViews();
+        init();
+    }
+
+    private void clearViews() {
+        layout1.removeAllViews();
+    }
+
     private void init() {
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layout1 = (LinearLayout) findViewById(R.id.mainScroll);
         newExercise = (ImageView) findViewById(R.id.addNewExercise);
+
         Database db = new Database(this);
-        ExerciseRepository er = new ExerciseRepository(db);
+        final ExerciseRepository er = new ExerciseRepository(db);
 
         newExercise.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,31 +57,26 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         for (Exercise e : er.getAllExercises()) {
             ConstraintLayout item = (ConstraintLayout) inflater.inflate(R.layout.exercise, null);
-            ((TextView) item.findViewById(R.id.e1)).setText(String.valueOf(e.getId()));
             ((TextView) item.findViewById(R.id.exName)).setText(e.getName());
             ((ImageView) item.findViewById(R.id.imageView2)).setImageResource(e.getImageResource());
-           /* switch(e.getName()) {
-                case "Squat":
+            try {
+                ((TextView) item.findViewById(R.id.lastWorkout))
+                        .setText("Last workout: " +
+                                DbUtils.formatDate(
+                        (DbUtils.convertDate(
+                                er.getLastExercise(e.getId())
+                        ))));
+            } catch (Exception e2) {
+                ((TextView) item.findViewById(R.id.lastWorkout)).setText("No workouts");
+            }
 
-                    break;
-                case "Bench":
-                    ((ImageView) item.findViewById(R.id.imageView2)).setImageResource(R.drawable.bp);
-                    break;
-                case "Deadlift":
-                    ((ImageView) item.findViewById(R.id.imageView2)).setImageResource(R.drawable.dlft);
-                    break;
-                case "Row":
-                    ((ImageView) item.findViewById(R.id.imageView2)).setImageResource(R.drawable.row);
-                    break;
-                case "OHP":
-                    ((ImageView) item.findViewById(R.id.imageView2)).setImageResource(R.drawable.ohp);
-                    break;
-            }*/
+
             layout1.addView(item);
             final int exId = e.getId();
-            item.setOnClickListener(new View.OnClickListener() {
+            ((TextView) item.findViewById(R.id.exName)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent myIntent = new Intent(MainActivity.this, ExerciseActivity.class);
@@ -78,14 +84,32 @@ public class MainActivity extends AppCompatActivity {
                     extras.putInt("id", exId);
                     myIntent.putExtras(extras);
                     MainActivity.this.startActivity(myIntent);
+                }
+            });
 
+            ((ImageView) item.findViewById(R.id.imageView2)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent myIntent = new Intent(MainActivity.this, ExerciseActivity.class);
+                    Bundle extras = new Bundle();
+                    extras.putInt("id", exId);
+                    myIntent.putExtras(extras);
+                    MainActivity.this.startActivity(myIntent);
                 }
             });
 
 
 
+            ((ImageView) item.findViewById(R.id.deleteExercise)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    er.deleteExercise(exId);
+                    clearViews();
+                    init();
+                }
+            });
         }
-
-
     }
+
+
 }

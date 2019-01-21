@@ -62,7 +62,9 @@ public class PopUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sr.addSet((picker1.getValue()*2.5), picker2.getValue(), workoutId);
+                setResult(RESULT_OK, null);
                 finish();
+
             }
         });
 

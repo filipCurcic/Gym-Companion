@@ -35,7 +35,7 @@
                 android:layout_marginTop="120dp"
                 android:layout_weight="0.1"
                 android:gravity="center"
-                android:text="kg    X"
+                android:text="kg X"
                 android:textSize="18sp" />
 
             <NumberPicker

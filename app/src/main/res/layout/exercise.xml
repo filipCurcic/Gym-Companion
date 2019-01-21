@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,23 +20,44 @@
             android:layout_weight="0.5"
             app:srcCompat="@android:drawable/ic_delete" />
 
-        <TextView
-            android:id="@+id/exName"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="10dp"
+        <LinearLayout
+            android:layout_width="192dp"
+            android:layout_height="match_parent"
             android:layout_weight="0.5"
-            android:textSize="18sp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/e1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="0dp"
-            android:layout_weight="0.5" />
+            <TextView
+                android:id="@+id/exName"
+                android:layout_width="100dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="0.5"
+                android:textColor="@android:color/background_light"
+                android:textSize="23sp" />
+
+            <TextView
+                android:id="@+id/lastWorkout"
+                android:layout_width="206dp"
+                android:layout_height="3dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_weight="0.5"
+                android:text="TextView"
+                android:textColor="@android:color/background_light"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/deleteExercise"
+            android:layout_width="12dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="25dp"
+            android:layout_weight="0.5"
+            app:srcCompat="@drawable/x" />
+
+
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

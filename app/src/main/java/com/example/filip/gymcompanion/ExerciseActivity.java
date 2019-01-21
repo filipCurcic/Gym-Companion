@@ -24,7 +24,7 @@ public class ExerciseActivity extends AppCompatActivity {
     LayoutInflater inflater;
     LinearLayout layout1;
     int exId;
-    Button add;
+    ImageView add;
 
 
 
@@ -35,13 +35,15 @@ public class ExerciseActivity extends AppCompatActivity {
         init();
     }
 
+
+
     private void init() {
         Intent i = getIntent();
         Bundle extras = i.getExtras();
         exId = extras.getInt("id");
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layout1 = (LinearLayout) findViewById(R.id.exerciseMainScroll);
-        add = (Button) findViewById(R.id.idAdd);
+        add = (ImageView) findViewById(R.id.idAdd);
 
         Database db = new Database(this);
         final WorkoutRepository wr = new WorkoutRepository(db);
@@ -59,9 +61,6 @@ public class ExerciseActivity extends AppCompatActivity {
         for (Workout w : wr.getSpecificWorkouts(exId)) {
             ConstraintLayout item = (ConstraintLayout) inflater.inflate(R.layout.workout, null);
             ((TextView) item.findViewById(R.id.idDate)).setText(DbUtils.formatDate(w.getDate()));
-
-            int indeks = wr.getSpecificWorkouts(exId).indexOf(w);
-            ((TextView) item.findViewById(R.id.wn)).setText(Integer.toString(indeks));
             layout1.addView(item);
 
             final int wId = w.getId();
